@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1,target-densitydpi=device-dpi">
+        <title>Check In System - History</title>
+        <script>
+            var year = {{ year }};
+            var month = {{ month }};
+            if (month === 1) {
+                var lastYear = year - 1;
+                var lastMonth = 12;
+                var nextYear = year;
+                var nextMonth = 2;
+            }
+            else if (month === 12) {
+                var lastYear = year;
+                var lastMonth = 11;
+                var nextYear = year + 1;
+                var nextMonth = 1;
+            }
+            else {
+                var lastYear = year;
+                var lastMonth = month - 1;
+                var nextYear = year;
+                var nextMonth = month + 1;  
+            }
+        </script>
+    </head>
+    
+    <body>
+        <h1>{{ year }}年{{ month }}月</h1>
+        <a href='' id='lastmonth'>上个月</a>
+        <script>document.getElementById("lastmonth").href="/history?year="+lastYear+'&month='+lastMonth;</script>
+        <a href="" id='nextmonth'>下个月</a>
+        <script> document.getElementById("nextmonth").href="/history?year="+nextYear+'&month='+nextMonth;</script> 
+        <table border="1">
+            <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thur</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+            <tr> 
+                <td>
+                    {% if block0 %}
+                    <a href="{{ url0 }}">{{ block0 }}</a>
+                    <p>菲菲：{{ feifei0 }}</p>
+                    <p>毛毛：{{ maomao0 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block1 %}
+                    <a href="{{ url1 }}">{{ block1 }}</a>
+                    <p>菲菲：{{ feifei1 }}</p>
+                    <p>毛毛：{{ maomao1 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block2 %}
+                    <a href="{{ url2 }}">{{ block2 }}</a>
+                    <p>菲菲：{{ feifei2 }}</p>
+                    <p>毛毛：{{ maomao2 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block3 %}
+                    <a href="{{ url3 }}">{{ block3 }}</a>
+                    <p>菲菲：{{ feifei3 }}</p>
+                    <p>毛毛：{{ maomao3 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block4 %}
+                    <a href="{{ url4 }}">{{ block4 }}</a>
+                    <p>菲菲：{{ feifei4 }}</p>
+                    <p>毛毛：{{ maomao4 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block5 %}
+                    <a href="{{ url5 }}">{{ block5 }}</a>
+                    <p>菲菲：{{ feifei5 }}</p>
+                    <p>毛毛：{{ maomao5 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block6 %}
+                    <a href="{{ url6 }}">{{ block6 }}</a>
+                    <p>菲菲：{{ feifei6 }}</p>
+                    <p>毛毛：{{ maomao6 }}</p>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if block7 %}
+                    <a href="{{ url7 }}">{{ block7 }}</a>
+                    <p>菲菲：{{ feifei7 }}</p>
+                    <p>毛毛：{{ maomao7 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block8 %}
+                    <a href="{{ url8 }}">{{ block8 }}</a>
+                    <p>菲菲：{{ feifei8 }}</p>
+                    <p>毛毛：{{ maomao8 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block9 %}
+                    <a href="{{ url9 }}">{{ block9 }}</a>
+                    <p>菲菲：{{ feifei9 }}</p>
+                    <p>毛毛：{{ maomao9 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block10 %}
+                    <a href="{{ url10 }}">{{ block10 }}</a>
+                    <p>菲菲：{{ feifei10 }}</p>
+                    <p>毛毛：{{ maomao10 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block11 %}
+                    <a href="{{ url11 }}">{{ block11 }}</a>
+                    <p>菲菲：{{ feifei11 }}</p>
+                    <p>毛毛：{{ maomao11 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block12 %}
+                    <a href="{{ url12 }}">{{ block12 }}</a>
+                    <p>菲菲：{{ feifei12 }}</p>
+                    <p>毛毛：{{ maomao12 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block13 %}
+                    <a href="{{ url13 }}">{{ block13 }}</a>
+                    <p>菲菲：{{ feifei13 }}</p>
+                    <p>毛毛：{{ maomao13 }}</p>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if block14 %}
+                    <a href="{{ url14 }}">{{ block14 }}</a>
+                    <p>菲菲：{{ feifei14 }}</p>
+                    <p>毛毛：{{ maomao14 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block15 %}
+                    <a href="{{ url15 }}">{{ block15 }}</a>
+                    <p>菲菲：{{ feifei15 }}</p>
+                    <p>毛毛：{{ maomao15 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block16 %}
+                    <a href="{{ url16 }}">{{ block16 }}</a>
+                    <p>菲菲：{{ feifei16 }}</p>
+                    <p>毛毛：{{ maomao16 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block17 %}
+                    <a href="{{ url17 }}">{{ block17 }}</a>
+                    <p>菲菲：{{ feifei17 }}</p>
+                    <p>毛毛：{{ maomao17 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block18 %}
+                    <a href="{{ url18 }}">{{ block18 }}</a>
+                    <p>菲菲：{{ feifei18 }}</p>
+                    <p>毛毛：{{ maomao18 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block19 %}
+                    <a href="{{ url19 }}">{{ block19 }}</a>
+                    <p>菲菲：{{ feifei19 }}</p>
+                    <p>毛毛：{{ maomao19 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block20 %}
+                    <a href="{{ url20 }}">{{ block20 }}</a>
+                    <p>菲菲：{{ feifei20 }}</p>
+                    <p>毛毛：{{ maomao20 }}</p>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if block21 %}
+                    <a href="{{ url21 }}">{{ block21 }}</a>
+                    <p>菲菲：{{ feifei21 }}</p>
+                    <p>毛毛：{{ maomao21 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block22 %}
+                    <a href="{{ url22 }}">{{ block22 }}</a>
+                    <p>菲菲：{{ feifei22 }}</p>
+                    <p>毛毛：{{ maomao22 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block23 %}
+                    <a href="{{ url23 }}">{{ block23 }}</a>
+                    <p>菲菲：{{ feifei23 }}</p>
+                    <p>毛毛：{{ maomao23 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block24 %}
+                    <a href="{{ url24 }}">{{ block24 }}</a>
+                    <p>菲菲：{{ feifei24 }}</p>
+                    <p>毛毛：{{ maomao24 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block25 %}
+                    <a href="{{ url25 }}">{{ block25 }}</a>
+                    <p>菲菲：{{ feifei25 }}</p>
+                    <p>毛毛：{{ maomao25 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block26 %}
+                    <a href="{{ url26 }}">{{ block26 }}</a>
+                    <p>菲菲：{{ feifei26 }}</p>
+                    <p>毛毛：{{ maomao26 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block27 %}
+                    <a href="{{ url27 }}">{{ block27 }}</a>
+                    <p>菲菲：{{ feifei27 }}</p>
+                    <p>毛毛：{{ maomao27 }}</p>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if block28 %}
+                    <a href="{{ url28 }}">{{ block28 }}</a>
+                    <p>菲菲：{{ feifei28 }}</p>
+                    <p>毛毛：{{ maomao28 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block29 %}
+                    <a href="{{ url29 }}">{{ block29 }}</a>
+                    <p>菲菲：{{ feifei29 }}</p>
+                    <p>毛毛：{{ maomao29 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block30 %}
+                    <a href="{{ url30 }}">{{ block30 }}</a>
+                    <p>菲菲：{{ feifei30 }}</p>
+                    <p>毛毛：{{ maomao30 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block31 %}
+                    <a href="{{ url31 }}">{{ block31 }}</a>
+                    <p>菲菲：{{ feifei31 }}</p>
+                    <p>毛毛：{{ maomao31 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block32 %}
+                    <a href="{{ url32 }}">{{ block32 }}</a>
+                    <p>菲菲：{{ feifei32 }}</p>
+                    <p>毛毛：{{ maomao32 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block33 %}
+                    <a href="{{ url33 }}">{{ block33 }}</a>
+                    <p>菲菲：{{ feifei33 }}</p>
+                    <p>毛毛：{{ maomao33 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block34 %}
+                    <a href="{{ url34 }}">{{ block34 }}</a>
+                    <p>菲菲：{{ feifei34 }}</p>
+                    <p>毛毛：{{ maomao34 }}</p>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if block35 %}
+                    <a href="{{ url35 }}">{{ block35 }}</a>
+                    <p>菲菲：{{ feifei35 }}</p>
+                    <p>毛毛：{{ maomao35 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block36 %}
+                    <a href="{{ url36 }}">{{ block36 }}</a>
+                    <p>菲菲：{{ feifei36 }}</p>
+                    <p>毛毛：{{ maomao36 }}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if block37 %}
+                    <a href="{{ url37 }}">{{ block37 }}</a>
+                    <p>菲菲：{{ feifei37 }}</p>
+                    <p>毛毛：{{ maomao37 }}</p>
+                    {% endif %}
+                </td>
+            </tr>          
+        </table>
+        <a href='/'>返回</a>
+    </body>
+</html>

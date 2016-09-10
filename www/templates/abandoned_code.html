@@ -1,0 +1,33 @@
+<!--{% #for friend, status in everyDayData[day]['friends'].items() %}
+                                #{{ #friend }}#: {{ #status }}
+                                {% #endfor %}-->
+                                
+                                
+                                                {% for day in range(monthDays)  %}
+                                                                                         
+                                                                                         
+            <script>
+                var year = {{ year }};
+                var month = {{ month }};
+                if (month === 1) {
+                    var lastYear = year - 1;
+                    var lastMonth = 12;
+                    var nextYear = year;
+                    var nextMonth = 2;
+                }
+                else if (month === 12) {
+                    var lastYear = year;
+                    var lastMonth = 11;
+                    var nextYear = year + 1;
+                    var nextMonth = 1;
+                }
+                else {
+                    var lastYear = year;
+                    var lastMonth = month - 1;
+                    var nextYear = year;
+                    var nextMonth = month + 1;  
+                }
+            </script>
+            
+             id='nextmonth' data-ajax='false'
+             <script> document.getElementById("nextmonth").href="/history?year="+nextYear+'&month='+nextMonth;</script> 

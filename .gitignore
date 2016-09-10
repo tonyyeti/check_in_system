@@ -1,0 +1,6 @@
+# tools
+create_users.py
+/tools/*
+
+# python
+*.py[cod]
