@@ -9,7 +9,7 @@
     </head>
     
     <body>
-        <div data-role="page">
+        <div data-role="page" id="month-calender">
             
             <div data-role="header" data-position="fixed" >
                 <a href="/" data-role="button" data-transition="slide" data-direction="reverse">返回</a>
@@ -27,7 +27,11 @@
                 
                 {% for day in range(monthDays)  %}
                 <div data-role="collapsible" >
-                    <h1>{{ month }}月{{ day+1 }}日 {{ everyDayData[day]['wday'] }} {{ everyDayData[day]['status'] }} </h1>
+                    <h1>{{ month }}月{{ day+1 }}日 {{ everyDayData[day]['wday'] }}
+                       {% if day < 9 %} <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ everyDayData[day]['status'] }}</span>
+                        {% else %} <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ everyDayData[day]['status'] }}</span>
+                        {% endif %}
+                    </h1>
                     <ul data-role="listview" data-theme="c">
                         <li>
                             <h3>
@@ -35,7 +39,7 @@
                                 {{ friend }}: {{ status }}
                                 {% endfor %}
                             </h3>
-                            <a href="#"></a>
+                            <a href="/history/journal?year={{year}}&month={{month}}&day={{day+1}}" data-transition="slide"></a>
                         </li>
                     </ul>
                 </div>
@@ -44,9 +48,13 @@
             </div>
             
             <div data-role="footer" data-position="fixed">
-                <a href="#" data-role="button">按钮</a>
-                <!--<a href="/write_journal" data-role="button" data-transition="slide">添加日志</a>
-                <a href="/history?year={{ year }}&month={{ month }}" data-role="button" data-transition="slide">历史查询</a>-->
+                <div data-role="navbar">
+                  <ul>
+                    <li><a href="#" class="ui-btn-active ui-state-persist">月历</a></li>
+                    <li><a href="#">排行榜</a></li>
+                    <li><a href="#">周历</a></li>
+                  </ul>
+                </div>   
             </div>
         </div>
         

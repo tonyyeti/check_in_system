@@ -3,13 +3,53 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1,target-densitydpi=device-dpi">
-        <title>History journal</title>
+        <title>Check In System - journals</title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+        <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
     </head>
     
     <body>
-        <h1>历史记录查询：{{ name }}，{{ year }}年{{ month }}月{{ day }}日， {{ weekday }}</h1>
-        <p>状态： {{ status }}</p>
-        <p>日志：<br> {{ journal }}</p>
-        <a href="/history?year={{ year }}&month={{ month }}">返回</a>
+        <div data-role="page">
+            <div data-role="header" data-position="fixed" >
+                <a href="#" data-role="button" data-rel="back" data-transition="slide" data-direction="reverse">返回</a>
+                <h3>历史查询</h3>
+                <a data-role="button">{{ username }}</a>
+            </div>
+            
+            <div data-role="content">  
+                <div>
+                    <p><span style="font-size:180%">{{ year }}年{{ month }}月{{ day }}日</span></p>
+                </div>
+                <ul data-role="listview">
+                    <li>
+                        <div>
+                            <h1>{{ username }}：<button data-line="true">{{ status }}</button></h1>
+                        </div>
+                        <div>
+                            <h1 style="white-space:pre-wrap;">日志：<br> {{ journal }}</h1>
+                        </div>
+                    </li>
+                    {% for friend in friends %}
+                    <li>
+                        <div>
+                            <h1>{{ friend.passive_user_name }}: <button data-line="true">{{ friend.status }}</button></h1>
+                        </div>
+                         <div>
+                            <h1 style="white-space:pre-wrap;">日志：<br> {{ friend.journal }}</h1>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div data-role="footer" data-position="fixed">
+                <!--<a href="/write_journal" data-role="button" data-transition="slide">添加日志</a>
+                <a href="/history?year={{ year }}&month={{ month }}" data-role="button" data-transition="slide">历史查询</a>-->
+            </div>
+        </div>
+        
+
+
     </body>
 </html>

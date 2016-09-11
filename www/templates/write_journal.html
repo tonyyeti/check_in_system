@@ -12,18 +12,18 @@
         <div data-role="page">
 
             <div data-role="header" data-position="fixed">
-                <a href="/" data-role="button" data-transition="slide" data-direction="reverse">返回</a>
+                <a href="/" data-role="button" data-transition="slideup" data-direction="reverse">返回</a>
                 <h3>撰写日志</h3>
                 <a data-role="button">{{ username }}</a>
             </div>
 
             <div data-role="content">
-                <form method="post" action="/api/submit_journal">
+                <form method="post" action="/api/submit_journal" data-transition="slideup" data-direction="reverse">
                     <div data-role="fieldcontain">
                         <label for="journal">日志：</label>
                         <textarea name="journal" id="journal">{{ journal }}</textarea>
                         <br>
-                        <input type="submit" value="提交">
+                        <input type="submit" value="提交" >
                     </div>
                 </form>
             </div>

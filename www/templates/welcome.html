@@ -15,11 +15,14 @@
         <div data-role="page">
             <div data-role="header" data-position="fixed" >
                 <a href="/signout" data-role="button" data-transition="slide" data-direction="reverse">登出</a>
-                <h3>{{ year }}年{{ month }}月{{ day }}日,{{ weekday }}</h3>
+                <h3>打卡系统</h3>
                 <a data-role="button">{{ username }}</a>
             </div>
             
             <div data-role="content">  
+                <div>
+                    <p><span style="font-size:170%">今天是{{ year }}年{{ month }}月{{ day }}日,{{weekday}}</span></p>
+                </div>
                 <ul data-role="listview">
                     <li>
                         <div>
@@ -49,12 +52,16 @@
             </div>
             
             <div data-role="footer" data-position="fixed">
-                <a href="/write_journal" data-role="button" data-transition="slide">添加日志</a>
-                <a href="/history?year={{ year }}&month={{ month }}" data-role="button" data-transition="slide">历史查询</a>
+                <div data-role="navbar">
+                  <ul>
+                    <li><a href="/history?year={{ year }}&month={{ month }}" data-transition="slide" data-icon="search">历史查询</a></li>
+                    <li><a href="/write_journal" data-icon="plus" data-transition="slideup">添加日志</a></li>
+                    <li><a href="/group" data-transition="slide" data-icon="grid">学习小组</a></li>
+                  </ul>
+                </div>   
             </div>
+            
         </div>
-        
-
 
     </body>
 </html>

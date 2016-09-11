@@ -229,12 +229,12 @@ def find_history(request):
         everyDayData[day] = {}
         everyDayData[day]['wday'] = wday2weekday(wday)
         # 调取打卡记录
-        everyDayData[day]['status'] = yield from check_status(year, month, day, user.name)
+        everyDayData[day]['status'] = yield from check_status(year, month, day+1, user.name)
         # 调取关注的好友
         friends = yield from Relation.findAll('active_user_name=?', [user.name])
         everyDayData[day]['friends'] = {}
         for friend in friends:
-            friend.status = yield from check_status(year, month, day, friend.passive_user_name)
+            friend.status = yield from check_status(year, month, day+1, friend.passive_user_name)
             everyDayData[day]['friends']['%s' % friend.passive_user_name] = friend.status
     # 返回
     return {
@@ -260,7 +260,7 @@ def find_history_last(request):
     nextYear, nextMonth, lastYear, lastMonth = nextLastYearMonth(year, month)
     return web.HTTPFound('/history?year=%s&month=%s' % (lastYear, lastMonth))
 
-    
+# 最早写的，配合history_old.html使用 
 @get('/history_old')
 def find_history_old(*, year, month):
     year = int(year)
@@ -289,27 +289,41 @@ def find_history_old(*, year, month):
     
 @get('/history/journal')
 def find_history_journal(request):
+    # 查询日的信息
+    user = request.__user__
+    name = user.name
     year = int(request.GET['year'])
     month = int(request.GET['month'])
     day = int(request.GET['day'])
-    user = request.__user__
     weekday = wday2weekday(dt.date(year, month, day).weekday())
-    journal = yield from find_journal_data(year, month, day, user.name)
-    status = yield from check_status(year, month, day, user.name)
-    content = None
-    try:
-        content = journal.content
-    finally:
-        return {
+    r_dict =  {
             '__template__': 'history_journal.html',
-            'name': user.name,
+            'username': user.name,
             'year': year,
             'month': month,
             'day': day,
             'weekday': weekday,
-            'status': status,
-            'journal': content
         }
+    # 读取朋友列表、朋友的打卡记录与日志
+    friends = yield from Relation.findAll('active_user_name=?', [name])
+    for friend in friends:
+        status = yield from check_status(year, month, day, friend.passive_user_name)
+        journal = yield from find_journal_data(year, month, day, friend.passive_user_name)
+        content = None
+        if not type(journal) == type(None):
+            content = journal.content   
+        friend.status = status
+        friend.journal = content
+    r_dict['friends'] = friends
+    # 你至己的打卡信息与日志
+    status = yield from check_status(year, month, day, name)
+    journal = yield from find_journal_data(year, month, day, name)
+    content = None
+    if not type(journal) == type(None):
+        content = journal.content   
+    r_dict['status'] = status
+    r_dict['journal'] = content
+    return r_dict
     
 @get('/write_journal')
 def write_journal(request):
@@ -340,12 +354,79 @@ def submit_journal(request):
     new_journal = Journal(user_id=user.id, user_name=user.name, content=journal)
     yield from new_journal.save()
     if not type(old_journal) == type(None): 
-        print(111)
         yield from old_journal.remove()
     return web.HTTPFound('/')
     
+@get('/group')
+def group(request):
+    user = request.__user__
+    name = user.name
+    following = yield from Relation.findAll('active_user_name=?', [name])
+    noFollowing = False
+    if type(following) == type(None):
+        noFollowing = True
+    follower = yield from Relation.findAll('passive_user_name=?', [name])
+    noFollower = False
+    if type(follower) == type(None):
+        noFollower = True
+    return {
+        '__template__': 'group.html',
+        'username': name,
+        'following': following,
+        'follower': follower,
+        'noFollowing': noFollowing,
+        'noFollower': noFollower
+    }
     
+@post('/api/add_following')
+def add_following(request):
+    user = request.__user__
+    add_following = request.POST['add']
+    new_following = yield from User.findAll('name=?', [add_following])
+    result = None
+    if len(new_following) == 1:
+        following_user = new_following[0]
+        relations = yield from Relation.findAll('active_user_name=?', [user.name])
+        if len(relations) >= 1:
+            for relation in relations:
+                if relation.passive_user_name == following_user.name:
+                    result = 'already following'
+            if result != 'already following':
+                r1 = Relation(active_user_id=user.id, active_user_name=user.name, passive_user_id=following_user.id, passive_user_name=following_user.name)
+                yield from r1.save() 
+        else:
+            r1 = Relation(active_user_id=user.id, active_user_name=user.name, passive_user_id=following_user.id, passive_user_name=following_user.name)
+            yield from r1.save()
+    else:
+        result = 'User Not Found'
+    # 重新载入此页
+    following = yield from Relation.findAll('active_user_name=?', [user.name])
+    noFollowing = False
+    if type(following) == type(None):
+        noFollowing = True
+    follower = yield from Relation.findAll('passive_user_name=?', [user.name])
+    noFollower = False
+    if type(follower) == type(None):
+        noFollower = True
+    return {
+        '__template__': 'group.html',
+        'username': user.name,
+        'following': following,
+        'follower': follower,
+        'noFollowing': noFollowing,
+        'noFollower': noFollower,
+        'result': result
+    }
     
+@get('/api/rm_following')
+def rm_following(request):
+    user = request.__user__
+    following_name = request.GET['following_name']
+    relations = yield from Relation.findAll('active_user_name=?', [user.name])
+    for relation in relations:
+        if relation.passive_user_name == following_name:
+            yield from relation.remove()
+    return web.HTTPFound('/group')
     
     
 
