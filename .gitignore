@@ -5,6 +5,9 @@ create_users.py
 # python
 *.py[cod]
 
+# img
+*.psd
+
 # deploy
 aws-tonyyeti.pem
 fabfile.py

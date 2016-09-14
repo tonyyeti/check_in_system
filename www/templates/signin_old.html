@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Check In System - sign in</title>
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/sha1.min.js"></script>
+        <script src="/static/js/uikit.min.js"></script>
+        <script src="/static/js/vue.min.js"></script>
+        <script src="/static/js/awesome.js"></script>
+        <script>
+        $(function () {
+            var vmAuth = new Vue({
+                el: '#vm',
+                data: {
+                    name: '',
+                    passwd: ''
+                },
+                methods: {
+                    submit: function (event) {
+                        event.preventDefault();
+                        var $form = $('#vm'),
+                            data = {
+                                name: this.username.trim(),
+                                passwd: this.passwd
+                        };
+/*                        if (! this.username.trim()) {
+                            return $form.showFormError('请输入名字');
+                        }
+                        if (! this.password) {
+                            return $form.showFormError('请输入密码');
+                        }*/
+                        $form.postJSON('/api/signin', data, function (err, result) {
+                            if (! err) {
+                                location.assign('/');
+                            }
+                        });
+                    }
+                }
+            });
+        });
+        </script>
+    </head>
+    
+    <body>
+        <form id="vm" v-on: submit.prevent ="submit">
+            <legend>Please sign in:</legend>     
+            <p><lable>用户名：</lable><input v-model='name' type="text" placeholder='username'></p>
+            <p><lable>密码： </lable><input v-model='passwd' type='password' placeholder='password' ></p>
+            <p><button type="submit">登录</button></p>  
+        </form>
+    
+    </body>
+</html>

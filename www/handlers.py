@@ -12,6 +12,7 @@ import calendar
 
 COOKIE_NAME = 'check_in_session'
 _COOKIE_KEY = configs.session.secret
+_RE_SHA1 = re.compile(r'^[0-9a-zA-Z]{6,20}$')
 
 def user2cookie(user ,max_age):
     '''
@@ -133,7 +134,7 @@ def index(request):
     day = todayTime.tm_mday
     weekday = wday2weekday(todayTime.tm_wday)
     r_dict = {
-            '__template__': 'welcome.html',
+            '__template__': 'index.html',
             'username': name,
             'year': year,
             'month': month,
@@ -157,40 +158,96 @@ def index(request):
     r_dict['status'] = status
     r_dict['journal'] = content
     return r_dict
+    
+@get('/about')
+def about(request):
+    return {
+        '__template__': 'about.html'
+    }
         
+@get('/signup')
+def sign_up(request):
+    return {
+        '__template__': 'signup.html'}
+        
+@post('/api/signup')
+def sign_up_check(*, name, passwd, passwdag):
+    # 输入有问题：
+    message = ''
+    inputError = False
+    if not name or not name.strip():
+        if len(message) > 0:
+            message = message + ';\n请输入用户名'
+        else:
+            message = message + '请输入用户名'
+        inputError = True
+    if not passwd or not _RE_SHA1.match(passwd) or not passwdag or not _RE_SHA1.match(passwdag):
+        if len(message) > 0:
+            message = message + ';\n密码只能由6-20位的字母与数字构成'
+        else:
+            message = message + '密码只能由6-20位的字母与数字构成'
+        inputError = True
+    if passwd != passwdag:
+        if len(message) > 0:
+            message = message + ';\n两次密码不匹配'
+        else:
+            message = message + '两次密码不匹配'
+        inputError = True
+    if inputError == True:
+        return {
+            '__template__': 'signup.html',
+            'message': message,
+            'username': name}
+    # 用户名已被注册
+    users = yield from User.findAll('name=?', [name])
+    if len(users) > 0:
+        message = '用户名已被注册'
+        return {
+            '__template__': 'signup.html',
+            'message': message}
+    # 注册用户
+    uid = next_id()
+    sha1_passwd = '%s:%s' % (uid, passwd)
+    user = User(id=uid, name=name.strip(), passwd=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), image='about:blank')
+    yield from user.save()  
+    # 分配cookie并转至首页
+    r = web.HTTPFound('/')
+    cookie = user2cookie(user, 86400)
+    r.set_cookie(COOKIE_NAME, cookie, max_age=86400, httponly=True)
+    r.content_type = 'application/json'
+    r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
+    user.passwd = '******'
+    return r
+     
 @get('/signin')
 def sign_in(request):
     return {
-        '__template__': 'signin_s.html'}
+        '__template__': 'signin.html'}
         
 @post('/api/signin')
 def sign_in_check(*, name, passwd):
     if not name:
-        #raise APIValueError('name', 'Invalid name.')
         return {
-            '__template__': 'signin_s.html',
-            'message': 'Please input name.'}
+            '__template__': 'signin.html',
+            'message': '请输入用户名'}
     if not passwd:
-        #raise APIValueError('passwd', 'Invalid password.')
         return {
-            '__template__': 'signin_s.html',
-            'message': 'Please input password.'}
+            '__template__': 'signin.html',
+            'message': '请输入密码'}
     users = yield from User.findAll('name=?', [name])
     if len(users) == 0:
-        #raise APIValueError('name', 'Username not found.')
         return {
-            '__template__': 'signin_s.html',
-            'message': 'Cannot find user.'}
+            '__template__': 'signin.html',
+            'message': '找不到该用户'}
     user = users[0]
     sha1 = hashlib.sha1()
     sha1.update(user.id.encode('utf-8'))
     sha1.update(b':')
     sha1.update(passwd.encode('utf-8'))
     if user.passwd != sha1.hexdigest():
-        #raise APIValueError('passwd', 'Invalid password.')
         return {
-            '__template__': 'signin_s.html',
-            'message': 'Invalid password.'}
+            '__template__': 'signin.html',
+            'message': '密码错误'}
     r = web.HTTPFound('/')
     cookie = user2cookie(user, 86400)
     r.set_cookie(COOKIE_NAME, cookie, max_age=86400, httponly=True)
