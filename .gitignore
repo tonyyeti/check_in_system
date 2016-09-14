@@ -4,3 +4,14 @@ create_users.py
 
 # python
 *.py[cod]
+
+# deploy
+aws-tonyyeti.pem
+fabfile.py
+fabfile.pyc
+
+# dist
+/dist/*
+
+# conf
+/conf/*
