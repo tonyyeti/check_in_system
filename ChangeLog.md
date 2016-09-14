@@ -1,6 +1,12 @@
 Check in System Change Log 
 ==========
 
+v0.1.2
+---
+2016.9.14
+
+- 测试新风格的UI(jQuery mobile 1.4.5)
+
 v0.1.1
 ---------
 2016.9.14
